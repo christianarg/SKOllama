@@ -65,21 +65,14 @@ public class JokesAgent
             Kernel = kernel
         };
 
-        ChatHistoryAgentThread agentThread = new();
-        var response = await agent.InvokeAsync(input, agentThread).ToListAsync();
-        var simplifiedResponse = response.Select(x => new 
-        {
-            x.Message.AuthorName,
-            Message = x.Message.ToString(),
-        });
-        return simplifiedResponse;
+        return await AgentInvokeHelper.InvokeAgent(input, agent);
     }
 }
 
 public class FoodAgent
 {
     [KernelFunction("get_food_response"), Description("Get response from Food agent")]
-    public async Task<object> GetFoodAgentResponse(string input)
+    public async Task<AgentResponse[]> GetFoodAgentResponse(string input)
     {
         Console.WriteLine("Invoking Food agent...");
         var kernel = KernelFactory.DefaultOllamaKernel();
@@ -91,13 +84,19 @@ public class FoodAgent
             Kernel = kernel
         };
 
+        return await AgentInvokeHelper.InvokeAgent(input, agent);
+    }
+}
+
+public record AgentResponse(string? AuthorName, string Message);
+
+public static class AgentInvokeHelper
+{
+    public static async Task<AgentResponse[]> InvokeAgent(string input, ChatCompletionAgent agent)
+    {
         ChatHistoryAgentThread agentThread = new();
         var response = await agent.InvokeAsync(input, agentThread).ToListAsync();
-        var simplifiedResponse = response.Select(x => new 
-        {
-            x.Message.AuthorName,
-            Message = x.Message.ToString(),
-        });
+        var simplifiedResponse = response.Select(x => new AgentResponse(x.Message.AuthorName, x.Message.ToString())).ToArray();
         return simplifiedResponse;
     }
 }
