@@ -6,8 +6,8 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-//await BasicQALoopAgentFramework();
-await BasicQALoopWithFunctions();
+await BasicQALoopAgentFramework();
+//await BasicQALoopWithFunctions();
 //await BasicQALoopChat();
 //await SimplestSample();
 
@@ -28,8 +28,16 @@ async Task BasicQALoopAgentFramework()
     {
         Console.Write("User>");
         var userInput = Console.ReadLine()!;
-        var result = await agent.InvokeAsync(userInput, agentThread).ToListAsync();
-        Console.WriteLine($"Assistant> {result.First().Message}");
+        bool responseStarted = false;
+        await foreach (var message in agent.InvokeAsync(userInput, agentThread))
+        {
+            if (!responseStarted)
+            {
+                responseStarted = true;
+                Console.WriteLine("Assistant>");
+            }
+            Console.WriteLine(message.Message);
+        }
     }
 }
 
