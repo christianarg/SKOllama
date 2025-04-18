@@ -6,7 +6,8 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-await BasicQALoopAgentFrameworkWithFunctions();
+await AgentDelegationSample.RunAsync();
+//await BasicQALoopAgentFrameworkWithFunctions();
 //await BasicQALoopAgentFramework();
 //await BasicQALoopWithFunctions();
 //await BasicQALoopChat();
@@ -130,12 +131,7 @@ async Task SimplestSample()
 
 }
 
-Kernel DefaultOllamaKernel()
-{
-    return Kernel.CreateBuilder()
-        .AddOllamaChatCompletion(modelId: "llama3.2", endpoint: new("http://localhost:11434"))
-        .Build();
-}
+Kernel DefaultOllamaKernel() => KernelFactory.DefaultOllamaKernel();
 
 public class DatePlugin
 {
