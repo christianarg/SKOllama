@@ -3,7 +3,6 @@
 using System.ComponentModel;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
-using Microsoft.SemanticKernel.ChatCompletion;
 
 /// <summary>
 /// Delegating Agent using tools/function calling. Inspired on https://ai.pydantic.dev/multi-agent-applications/#agent-delegation
@@ -63,7 +62,6 @@ public class JokesAgent
             Instructions = "You tell jokes.",
             Kernel = kernel
         };
-        // so ugly
 
         ChatHistoryAgentThread agentThread = new();
         var response = await agent.InvokeAsync(input, agentThread).ToListAsync();
