@@ -6,13 +6,52 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-await BasicQALoopAgentFramework();
+await BasicQALoopAgentFrameworkWithFunctions();
+//await BasicQALoopAgentFramework();
 //await BasicQALoopWithFunctions();
 //await BasicQALoopChat();
 //await SimplestSample();
 
 Console.ReadLine();
 
+
+async Task BasicQALoopAgentFrameworkWithFunctions()
+{
+    var kernel = DefaultOllamaKernel();
+    kernel.Plugins.AddFromType<DatePlugin>();
+    ChatCompletionAgent agent = new()
+    {
+        Name = null,
+        Instructions = null,
+        Kernel = kernel
+    };
+    // so ugly
+    AgentInvokeOptions agentInvokeOptions = new()
+    {
+        KernelArguments = new(new PromptExecutionSettings()
+        {
+            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+        })
+    };
+
+    ChatHistoryAgentThread agentThread = new();
+
+    while (true)
+    {
+        Console.Write("User>");
+        var userInput = Console.ReadLine()!;
+        bool responseStarted = false;
+        await foreach (var message in agent.InvokeAsync(userInput, agentThread, agentInvokeOptions))
+        {
+            if (!responseStarted)
+            {
+                responseStarted = true;
+                Console.WriteLine("Assistant>");
+            }
+            Console.WriteLine(message.Message);
+        }
+    }
+}
 
 async Task BasicQALoopAgentFramework()
 {
