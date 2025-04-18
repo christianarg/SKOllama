@@ -1,15 +1,20 @@
 ﻿#pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 #pragma warning disable CS8321 // Local function is declared but never used
 
+using System.ComponentModel;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-await BasicQALootAgentFramework();
+//await BasicQALoopAgentFramework();
+await BasicQALoopWithFunctions();
 //await BasicQALoopChat();
 //await SimplestSample();
 
-async Task BasicQALootAgentFramework()
+Console.ReadLine();
+
+
+async Task BasicQALoopAgentFramework()
 {
     var kernel = DefaultOllamaKernel();
     ChatCompletionAgent agent = new()
@@ -28,7 +33,31 @@ async Task BasicQALootAgentFramework()
     }
 }
 
-async Task BasicQALoopChat()
+async Task BasicQALoopWithFunctions()
+{
+    var kernel = DefaultOllamaKernel();
+    kernel.Plugins.AddFromType<DatePlugin>();
+    var chatService = kernel.GetRequiredService<IChatCompletionService>();
+    ChatHistory chat = new();
+
+    PromptExecutionSettings promptExecutionSettings = new()
+    {
+        FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+    };
+
+    while (true)
+    {
+        Console.Write("User>");
+        var userInput = Console.ReadLine()!;
+        chat.AddUserMessage(userInput);
+        var result = await chatService.GetChatMessageContentAsync(chat, executionSettings: promptExecutionSettings, kernel: kernel);
+        Console.WriteLine($"Assistant> {result}");
+        chat.AddAssistantMessage(result.ToString());
+    }
+}
+
+
+async Task BasicQALoop()
 {
     var kernel = DefaultOllamaKernel();
 
@@ -44,7 +73,6 @@ async Task BasicQALoopChat()
         Console.WriteLine($"Assistant> {result}");
         chat.AddAssistantMessage(result.ToString());
     }
-
 }
 
 async Task SimplestSample()
@@ -62,4 +90,12 @@ Kernel DefaultOllamaKernel()
         .Build();
 }
 
-Console.ReadLine();
+public class DatePlugin
+{
+
+    [KernelFunction("get_date_time"), Description("Get the current date")]
+    public string GetDateTime()
+    {
+        return DateTime.Now.ToString();
+    }
+}
