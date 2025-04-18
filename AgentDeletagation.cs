@@ -13,6 +13,8 @@ public static class AgentDelegationSample
     {
         var kernel = KernelFactory.DefaultOllamaKernel();
         kernel.Plugins.AddFromType<JokesAgent>();
+        kernel.Plugins.AddFromType<FoodAgent>();
+        
         ChatCompletionAgent agent = new()
         {
             Name = "DelegationAgent",
@@ -60,6 +62,32 @@ public class JokesAgent
         {
             Name = "JokesAgent",
             Instructions = "You tell jokes.",
+            Kernel = kernel
+        };
+
+        ChatHistoryAgentThread agentThread = new();
+        var response = await agent.InvokeAsync(input, agentThread).ToListAsync();
+        var simplifiedResponse = response.Select(x => new 
+        {
+            x.Message.AuthorName,
+            Message = x.Message.ToString(),
+        });
+        return simplifiedResponse;
+    }
+}
+
+public class FoodAgent
+{
+    [KernelFunction("get_food_response"), Description("Get response from Food agent")]
+    public async Task<object> GetFoodAgentResponse(string input)
+    {
+        Console.WriteLine("Invoking Food agent...");
+        var kernel = KernelFactory.DefaultOllamaKernel();
+
+        ChatCompletionAgent agent = new()
+        {
+            Name = "FoodAgent",
+            Instructions = "You answer about food.",
             Kernel = kernel
         };
 
