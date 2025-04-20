@@ -7,10 +7,10 @@ using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Google;
 
-//await AgentDelegationSample.RunAsync();
+await AgentDelegationSample.RunAsync();
 //await BasicQALoopAgentFrameworkWithFunctions();
 //await BasicQALoopAgentFramework();
-await BasicQALoopWithFunctions();
+//await BasicQALoopWithFunctions();
 //await BasicQALoop();
 //await SimplestSample();
 

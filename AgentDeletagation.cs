@@ -1,8 +1,10 @@
 #pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
 using System.ComponentModel;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
+using Microsoft.SemanticKernel.Connectors.Google;
 
 /// <summary>
 /// Delegating Agent using tools/function calling. Inspired on https://ai.pydantic.dev/multi-agent-applications/#agent-delegation
@@ -24,9 +26,10 @@ public static class AgentDelegationSample
         // so ugly
         AgentInvokeOptions agentInvokeOptions = new()
         {
-            KernelArguments = new(new PromptExecutionSettings()
+            KernelArguments = new(new GeminiPromptExecutionSettings()
             {
-                FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+                //FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+                ToolCallBehavior = GeminiToolCallBehavior.AutoInvokeKernelFunctions
             })
         };
 
