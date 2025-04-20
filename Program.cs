@@ -5,12 +5,13 @@ using System.ComponentModel;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.Google;
 
-await AgentDelegationSample.RunAsync();
+//await AgentDelegationSample.RunAsync();
 //await BasicQALoopAgentFrameworkWithFunctions();
 //await BasicQALoopAgentFramework();
-//await BasicQALoopWithFunctions();
-//await BasicQALoopChat();
+await BasicQALoopWithFunctions();
+//await BasicQALoop();
 //await SimplestSample();
 
 Console.ReadLine();
@@ -29,9 +30,10 @@ async Task BasicQALoopAgentFrameworkWithFunctions()
     // so ugly
     AgentInvokeOptions agentInvokeOptions = new()
     {
-        KernelArguments = new(new PromptExecutionSettings()
+        KernelArguments = new(new GeminiPromptExecutionSettings()
         {
-            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+            //FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+            ToolCallBehavior = GeminiToolCallBehavior.AutoInvokeKernelFunctions
         })
     };
 
@@ -86,11 +88,12 @@ async Task BasicQALoopWithFunctions()
     var kernel = DefaultOllamaKernel();
     kernel.Plugins.AddFromType<DatePlugin>();
     var chatService = kernel.GetRequiredService<IChatCompletionService>();
-    ChatHistory chat = new();
+    ChatHistory chat = new("Your'e a helpful assistant that can answer questions. ONLY call functions if the user asks for the current date or time. Do not call functions for any other reason.");
 
-    PromptExecutionSettings promptExecutionSettings = new()
+    GeminiPromptExecutionSettings promptExecutionSettings = new()
     {
-        FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+        //FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+        ToolCallBehavior = GeminiToolCallBehavior.AutoInvokeKernelFunctions
     };
 
     while (true)
@@ -131,12 +134,12 @@ async Task SimplestSample()
 
 }
 
-Kernel DefaultOllamaKernel() => KernelFactory.DefaultOllamaKernel();
+Kernel DefaultOllamaKernel() => KernelFactory.DefaultKernel();
 
 public class DatePlugin
 {
 
-    [KernelFunction("get_date_time"), Description("Get the current date")]
+    [KernelFunction("get_date_time"), Description("Get the current date.")]
     public string GetDateTime()
     {
         return DateTime.Now.ToString();

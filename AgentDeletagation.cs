@@ -11,7 +11,7 @@ public static class AgentDelegationSample
 {
     public static async Task RunAsync()
     {
-        var kernel = KernelFactory.DefaultOllamaKernel();
+        var kernel = KernelFactory.DefaultKernel();
         kernel.Plugins.AddFromType<JokesAgent>();
         kernel.Plugins.AddFromType<FoodAgent>();
         
@@ -56,7 +56,7 @@ public class JokesAgent
     public async Task<object> GetJokesAgentResponse(string input)
     {
         Console.WriteLine("Invoking Jokes agent...");
-        var kernel = KernelFactory.DefaultOllamaKernel();
+        var kernel = KernelFactory.DefaultKernel();
 
         ChatCompletionAgent agent = new()
         {
@@ -75,7 +75,7 @@ public class FoodAgent
     public async Task<AgentResponse[]> GetFoodAgentResponse(string input)
     {
         Console.WriteLine("Invoking Food agent...");
-        var kernel = KernelFactory.DefaultOllamaKernel();
+        var kernel = KernelFactory.DefaultKernel();
 
         ChatCompletionAgent agent = new()
         {
