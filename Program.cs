@@ -19,7 +19,7 @@ Console.ReadLine();
 
 async Task BasicQALoopAgentFrameworkWithFunctions()
 {
-    var kernel = DefaultOllamaKernel();
+    var kernel = DefaultKernel();
     kernel.Plugins.AddFromType<DatePlugin>();
     ChatCompletionAgent agent = new()
     {
@@ -58,7 +58,7 @@ async Task BasicQALoopAgentFrameworkWithFunctions()
 
 async Task BasicQALoopAgentFramework()
 {
-    var kernel = DefaultOllamaKernel();
+    var kernel = DefaultKernel();
     ChatCompletionAgent agent = new()
     {
         Name = null,
@@ -85,7 +85,7 @@ async Task BasicQALoopAgentFramework()
 
 async Task BasicQALoopWithFunctions()
 {
-    var kernel = DefaultOllamaKernel();
+    var kernel = DefaultKernel();
     kernel.Plugins.AddFromType<DatePlugin>();
     var chatService = kernel.GetRequiredService<IChatCompletionService>();
     ChatHistory chat = new("Your'e a helpful assistant that can answer questions. ONLY call functions if the user asks for the current date or time. Do not call functions for any other reason.");
@@ -110,7 +110,7 @@ async Task BasicQALoopWithFunctions()
 
 async Task BasicQALoop()
 {
-    var kernel = DefaultOllamaKernel();
+    var kernel = DefaultKernel();
 
     var chatService = kernel.GetRequiredService<IChatCompletionService>();
     ChatHistory chat = new();
@@ -128,13 +128,13 @@ async Task BasicQALoop()
 
 async Task SimplestSample()
 {
-    var kernel = DefaultOllamaKernel();
+    var kernel = DefaultKernel();
     var result = await kernel.InvokePromptAsync("Hola crack");
     Console.WriteLine(result);
 
 }
 
-Kernel DefaultOllamaKernel() => KernelFactory.DefaultKernel();
+Kernel DefaultKernel() => KernelFactory.DefaultKernel();
 
 public class DatePlugin
 {
