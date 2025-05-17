@@ -7,7 +7,8 @@ using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Google;
 
-await AgentDelegationSample.RunAsync();
+await RunIntentDetection();
+//await AgentDelegationSample.RunAsync();
 //await BasicQALoopAgentFrameworkWithFunctions();
 //await BasicQALoopAgentFramework();
 //await BasicQALoopWithFunctions();
@@ -16,6 +17,20 @@ await AgentDelegationSample.RunAsync();
 
 Console.ReadLine();
 
+
+async Task RunIntentDetection()
+{
+    ChatHistory chatHistory = new();
+    while (true)
+    {
+        Console.Write("User>");
+        var userInput = Console.ReadLine()!;
+        chatHistory.AddUserMessage(userInput);
+        var result = await IntentDetection.Execute(chatHistory);
+        Console.WriteLine("Intent detected:" + result.Intent);
+        Console.WriteLine("Rewritten query:" + result.Query);
+    }
+}
 
 async Task BasicQALoopAgentFrameworkWithFunctions()
 {
