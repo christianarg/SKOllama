@@ -6,7 +6,7 @@ namespace Subscriptions
     {
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
-        public decimal UnitPrice { get; set; }
+        public double UnitPrice { get; set; }
         public int Quantity { get; set; }
         public BillingCycle BillingCycle { get; set; }
         public Commitment Commitment { get; set; }
@@ -39,8 +39,8 @@ namespace Subscriptions
     {
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
-        public decimal MontlyPrice { get; set; }
-        public decimal AnnualPrice { get; set; }
+        public double MontlyPrice { get; set; }
+        public double AnnualPrice { get; set; }
 
         // Navigation
         public ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();

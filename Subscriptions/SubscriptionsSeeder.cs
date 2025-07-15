@@ -17,13 +17,13 @@ namespace Subscriptions
             // Catalog Products
             var catalogProducts = new List<CatalogProduct>
             {
-                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Office 365 E1", MontlyPrice = 8.00m, AnnualPrice = 96.00m },
-                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Office 365 E3", MontlyPrice = 20.00m, AnnualPrice = 240.00m },
-                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Office 365 E5", MontlyPrice = 35.00m, AnnualPrice = 420.00m },
-                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Microsoft 365 E3", MontlyPrice = 32.00m, AnnualPrice = 384.00m },
-                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Microsoft 365 E5", MontlyPrice = 57.00m, AnnualPrice = 684.00m },
-                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Microsoft 365 Business Basic", MontlyPrice = 6.00m, AnnualPrice = 72.00m },
-                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Microsoft 365 Business Standard", MontlyPrice = 12.50m, AnnualPrice = 150.00m },
+                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Office 365 E1", MontlyPrice = 8.00, AnnualPrice = 96.00 },
+                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Office 365 E3", MontlyPrice = 20.00, AnnualPrice = 240.00 },
+                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Office 365 E5", MontlyPrice = 35.00, AnnualPrice = 420.00 },
+                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Microsoft 365 E3", MontlyPrice = 32.00, AnnualPrice = 384.00 },
+                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Microsoft 365 E5", MontlyPrice = 57.00, AnnualPrice = 684.00 },
+                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Microsoft 365 Business Basic", MontlyPrice = 6.00, AnnualPrice = 72.00 },
+                new CatalogProduct { Id = Guid.NewGuid().ToString(), Name = "Microsoft 365 Business Standard", MontlyPrice = 12.50, AnnualPrice = 150.00 },
             };
             context.CatalogProducts.AddRange(catalogProducts);
             context.SaveChanges();
@@ -52,7 +52,7 @@ namespace Subscriptions
                 new Subscription {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Office 365 E3 Annual",
-                    UnitPrice = 240.00m,
+                    UnitPrice = 240.00,
                     Quantity = 30,
                     BillingCycle = BillingCycle.Annual,
                     Commitment = Commitment.Annual,
@@ -62,7 +62,7 @@ namespace Subscriptions
                 new Subscription {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Office 365 E3 Monthly",
-                    UnitPrice = 20.00m,
+                    UnitPrice = 20.00,
                     Quantity = 10,
                     BillingCycle = BillingCycle.Monthly,
                     Commitment = Commitment.Monthly,
@@ -73,7 +73,7 @@ namespace Subscriptions
                 new Subscription {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Microsoft 365 E3 Annual",
-                    UnitPrice = 384.00m,
+                    UnitPrice = 384.00,
                     Quantity = 20,
                     BillingCycle = BillingCycle.Annual,
                     Commitment = Commitment.Annual,
@@ -84,7 +84,7 @@ namespace Subscriptions
                 new Subscription {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Microsoft 365 E5 Annual",
-                    UnitPrice = 684.00m,
+                    UnitPrice = 684.00,
                     Quantity = 10,
                     BillingCycle = BillingCycle.Annual,
                     Commitment = Commitment.Annual,
@@ -95,7 +95,7 @@ namespace Subscriptions
                 new Subscription {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Microsoft 365 Business Standard Annual",
-                    UnitPrice = 150.00m,
+                    UnitPrice = 150.00,
                     Quantity = 15,
                     BillingCycle = BillingCycle.Annual,
                     Commitment = Commitment.Annual,
