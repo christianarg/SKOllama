@@ -6,8 +6,11 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Google;
+using Subscriptions;
 
-await RunIntentDetection();
+SubscriptionsSeeder.InitDb();
+
+//await RunIntentDetection();
 //await AgentDelegationSample.RunAsync();
 //await BasicQALoopAgentFrameworkWithFunctions();
 //await BasicQALoopAgentFramework();
