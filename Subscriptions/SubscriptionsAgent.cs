@@ -52,10 +52,12 @@ public class SubscriptionsAgent
                 - CatalogProducts. The complete product catalog the user can subscribe to.
                 DO NOT return the SQL query to the user. 
                 Understand the user's intent, generate SQL queries, and return the results.
+                Return also the query description to help the user understand what you have done.
                 You can try multiple times to get the correct result.
                 Since the terminology can be ambiguous, you can ask the user for clarification if needed, either before or after executing the query. For example if the user asks "what is the price of Office 365 E3", it may refer to a subscription the user owns, or a product the user can subscribe to.
                 This is the Entity Framework model of the database:
                 {SubscriptionAgentHelper.DescribeDatabase()}
+                For enum properties, the database stores the values as integers. For example, the BillingCycle property can have the values 0 (Monthly) or 1 (Annual). The Commitment property can have the values 0 (Monthly) or 1 (Annual).
                 """,
             Kernel = kernel,
             Arguments = new(new GeminiPromptExecutionSettings()
@@ -89,7 +91,19 @@ public class SubscriptionQueryExecutor
 
             // Dapper returns IEnumerable<dynamic>, convert to List<Dictionary<string, object>>
             var result = await connection.QueryAsync(sqlQuery);
-            return result;
+            // Serialize with enum as string using JsonNet setting
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() }
+            };
+            var serializedResult = JsonConvert.SerializeObject(result, settings);
+            return $"""
+                # Query Result
+                {serializedResult}
+                # Query Description
+                {queryDescription}
+                """;
         }
         catch (Exception ex)
         {
@@ -112,8 +126,15 @@ public class SubscriptionAgentHelper
             {
                 if (property.ClrType.IsEnum)
                 {
-                    var enumValues = Enum.GetNames(property.ClrType);
-                    sb.AppendLine($"  Property: {property.Name}, Type: {property.ClrType.Name}, Values: {string.Join(";", enumValues)}");
+                    var enumNames = Enum.GetNames(property.ClrType);
+                    var enumValues = Enum.GetValues(property.ClrType);
+                    var enumDict = new Dictionary<string, int>();
+                    for (int i = 0; i < enumNames.Length; i++)
+                    {
+                        enumDict[enumNames[i]] = (int)enumValues.GetValue(i)!;
+                    }
+
+                    sb.AppendLine($"  Property: {property.Name}, Type: Enum, Values: {JsonConvert.SerializeObject(enumDict)}");
                 }
                 else
                 {

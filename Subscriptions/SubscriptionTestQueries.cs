@@ -35,6 +35,7 @@ public class SubscriptinTestQueries
         connection.Open();
         var sql = "SELECT * FROM Subscriptions";
         var subscriptions = await connection.QueryAsync(sql);
+        Console.WriteLine("Subscriptions:");
         Console.WriteLine(JsonConvert.SerializeObject(subscriptions, Formatting.Indented));
     }
 
