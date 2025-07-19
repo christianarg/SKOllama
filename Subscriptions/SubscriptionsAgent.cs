@@ -13,6 +13,11 @@ namespace Subscriptions;
 
 public class SubscriptionsAgent
 {
+    /// <summary>
+    /// Some prompts:
+    /// - details of Office 365 E3 subscriptions
+    /// </summary>
+    /// <returns></returns>
     public static async Task RunAgent()
     {
         ChatHistory chatHistory = new();
