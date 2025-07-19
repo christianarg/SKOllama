@@ -118,7 +118,7 @@ public class SubscriptionQueryExecutor
     [KernelFunction, Description("Generates and Executes a SELECT query against the subscriptions database and returns the results. The tables include Subscriptions, CatalogProducts, and Skus.")]
     public async Task<object> GenerateAndExecuteQuery([Description("The SQL SELECT query. Must be valid SQL for SQLite")] string sqlQuery, [Description("The description of the generated query. Use this to reason about the generated query")]string queryDescription)
     {
-        // Note: in a real application, you would validate the SQL ensute it's a select query and not a destructive query.
+        // Note: in a real application, you would validate the SQL ensure it's a select query and not a destructive query.
         Console.WriteLine($"Query Description: {queryDescription}");
         Console.WriteLine($"Executing query: {sqlQuery}");
         try
