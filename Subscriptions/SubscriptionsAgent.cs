@@ -18,7 +18,7 @@ public class SubscriptionsAgent
     /// - details of Office 365 E3 subscriptions => should return the details of the subscriptions
     /// - what's the price of Office 365 E1 => should ask for clarification
     /// - what are my annual subscriptions => should return the annual subscriptions. Ideally should clarify if the user means billing cycle or commitment, I could add some prompt to this. For now it query either one. The description of the returned query should help the user understand what the agent has done.
-    /// what are my unassigned licenses
+    /// - what are my unassigned licenses
     /// </summary>
     /// <returns></returns>
     public static async Task RunAgent()
