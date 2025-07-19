@@ -23,24 +23,35 @@ public class SubscriptionsAgent
     /// <returns></returns>
     public static async Task RunAgent()
     {
+        var subscriptionsAgent = SetupSubscriptionsAgent();
         ChatHistory chatHistory = new();
+
         while (true)
         {
             Console.Write("User>");
             var userInput = Console.ReadLine()!;
             chatHistory.AddUserMessage(userInput);
-            var result = await ExecuteAgent(chatHistory);
+            var result = await ExecuteAgent(subscriptionsAgent, chatHistory);
             Console.Write("Assistant> ");
             Console.WriteLine(result.ToString());
         }
     }
 
-    public static async Task<string> ExecuteAgent(ChatHistory chatHistory)
+    private static async Task<string> ExecuteAgent(ChatCompletionAgent agent, ChatHistory chatHistory)
+    {
+        StringBuilder result = new();
+        ChatHistoryAgentThread agentThread = new(chatHistory);
+        await foreach (var message in agent.InvokeAsync(agentThread))
+        {
+            result.AppendLine(message.Message.ToString());
+        }
+        return result.ToString();
+    }
+
+    private static ChatCompletionAgent SetupSubscriptionsAgent()
     {
         var kernel = KernelFactory.DefaultKernel();
         kernel.Plugins.AddFromType<SubscriptionQueryExecutor>();
-
-        SubscriptionAgentHelper.DescribeDatabase();
 
         ChatCompletionAgent agent = new()
         {
@@ -69,48 +80,44 @@ public class SubscriptionsAgent
             })
         };
         // note: instructions do not include restrictions. In a real app you would do this if this was a user facing agent. If this was a "sub-agent" you would proably not include restrictions as the parent agent would have already done this.
-        StringBuilder result = new();
-        ChatHistoryAgentThread agentThread = new(chatHistory);
-        await foreach (var message in agent.InvokeAsync(agentThread))
-        {
-            result.AppendLine(message.Message.ToString());
-        }
-        return result.ToString();
+        return agent;
     }
-    /*
-    Alternative instructions for the agent separated in sections with headers. Separation made by gpt4.1
-    In my experience I have had time defining sections as of example many or most are rules. 
-    I tested it a bit and I'm not conviced, I think I got worse results with sections.
-    While models can benefit from sections I think it's mostly useful for humans to read the instructions.
-    I will leave it here for now commented out.
+    #region Alternative instructions for the agent separated in sections with headers
+/*
+Alternative instructions for the agent separated in sections with headers. Separation made by gpt4.1
+In my experience I have had time defining sections as of example many or most are rules. 
+I tested it a bit and I'm not conviced, I think I got worse results with sections.
+While models can benefit from sections I think it's mostly useful for humans to read the instructions.
+I will leave it here for now commented out.
 
-    # Objective
-    Answer the user's questions about licenses and subscriptions.
+# Objective
+Answer the user's questions about licenses and subscriptions.
 
-    # Rules
-    - Use the `GenerateAndExecuteQuery` function to generate and execute SQL queries.
-    - DO NOT return the SQL query to the user.
-    - Understand the user's intent, generate SQL queries, and return the results.
-    - Return also the query description to help the user understand what you have done.
-    - You can try multiple times to get the correct result.
-    - Since the terminology can be ambiguous, you can ask the user for clarification if needed, either before or after executing the query.
+# Rules
+- Use the `GenerateAndExecuteQuery` function to generate and execute SQL queries.
+- DO NOT return the SQL query to the user.
+- Understand the user's intent, generate SQL queries, and return the results.
+- Return also the query description to help the user understand what you have done.
+- You can try multiple times to get the correct result.
+- Since the terminology can be ambiguous, you can ask the user for clarification if needed, either before or after executing the query.
 
-    # Database Information
-    The subscriptions database contains the following tables: 
-    - Subscriptions: The subscription to licenses.
-    - Skus: The stock keeping units for the license. A Sku can have multiple subscriptions. Note: Sku is an internal technical term. The user will most likely never use it. Normally the user will refer to it as a license.
-    - CatalogProducts: The complete product catalog the user can subscribe to.
+# Database Information
+The subscriptions database contains the following tables: 
+- Subscriptions: The subscription to licenses.
+- Skus: The stock keeping units for the license. A Sku can have multiple subscriptions. Note: Sku is an internal technical term. The user will most likely never use it. Normally the user will refer to it as a license.
+- CatalogProducts: The complete product catalog the user can subscribe to.
 
-    # Entity Framework Model
-    {SubscriptionAgentHelper.DescribeDatabase()}
+# Entity Framework Model
+{SubscriptionAgentHelper.DescribeDatabase()}
 
-    # Enum Properties
-    For enum properties, the database stores the values as integers. For example, the BillingCycle property can have the values 0 (Monthly) or 1 (Annual). The Commitment property can have the values 0 (Monthly) or 1 (Annual).
+# Enum Properties
+For enum properties, the database stores the values as integers. For example, the BillingCycle property can have the values 0 (Monthly) or 1 (Annual). The Commitment property can have the values 0 (Monthly) or 1 (Annual).
 
-    # Clarification Guidance
-    If the user's question is ambiguous (e.g., "what is the price of Office 365 E3"), clarify whether they mean a subscription they own or a product they can subscribe to.
-    """,
-    */
+# Clarification Guidance
+If the user's question is ambiguous (e.g., "what is the price of Office 365 E3"), clarify whether they mean a subscription they own or a product they can subscribe to.
+""",
+*/
+    #endregion
 }
 
 public class SubscriptionQueryExecutor
