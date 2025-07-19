@@ -17,6 +17,8 @@ public class SubscriptionsAgent
     /// Some prompts:
     /// - details of Office 365 E3 subscriptions => should return the details of the subscriptions
     /// - what's the price of Office 365 E1 => should ask for clarification
+    /// - what are my annual subscriptions => should return the annual subscriptions. Ideally should clarify if the user means billing cycle or commitment, I could add some prompt to this. For now it query either one. The description of the returned query should help the user understand what the agent has done.
+    /// what are my unassigned licenses
     /// </summary>
     /// <returns></returns>
     public static async Task RunAgent()
@@ -48,7 +50,7 @@ public class SubscriptionsAgent
                 Use the `GenerateAndExecuteQuery` function to generate and execute SQL queries.
                 The subscriptions database contains the following tables: 
                 - Subscriptions. The subscription to licenses.
-                - Skus. The stock keeping units for the license. A Sku can have multiple subscriptions.
+                - Skus. The stock keeping units for the license. A Sku can have multiple subscriptions. Note: Sku is an internal technical term. The user will most likely never use it. Normally the user will refer it as a license.
                 - CatalogProducts. The complete product catalog the user can subscribe to.
                 DO NOT return the SQL query to the user. 
                 Understand the user's intent, generate SQL queries, and return the results.
@@ -103,6 +105,7 @@ public class SubscriptionQueryExecutor
                 {serializedResult}
                 # Query Description
                 {queryDescription}
+                Remember to replace the term "Sku" with "License" in the results, as the user will not understand the technical term "Sku".
                 """;
         }
         catch (Exception ex)
