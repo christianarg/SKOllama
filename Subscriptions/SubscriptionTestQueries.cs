@@ -6,10 +6,7 @@ public class SubscriptinTestQueries
 {
     public static void Run()
     {
-        var options = new DbContextOptionsBuilder<SubscriptionsDbContext>()
-            .UseSqlite("Data Source=database.db")
-            .Options;
-        using var context = new SubscriptionsDbContext(options);
+        using var context = new SubscriptionsDbContext();
         // Example: Get all subscriptions
         var subscriptions = context.Subscriptions.ToList();
         foreach (var subscription in subscriptions)

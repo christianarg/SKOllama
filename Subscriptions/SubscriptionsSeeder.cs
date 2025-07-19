@@ -12,10 +12,7 @@ namespace Subscriptions
         /// </summary>
         public static void InitDb()
         {
-            var options = new DbContextOptionsBuilder<SubscriptionsDbContext>()
-                .UseSqlite("Data Source=database.db")
-                .Options;
-            using var context = new SubscriptionsDbContext(options);
+            using var context = new SubscriptionsDbContext();
             Seed(context);
         }
 
