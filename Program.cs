@@ -8,9 +8,11 @@ using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Google;
 using Subscriptions;
 
+SubscriptinTestQueries.Run();
+await SubscriptionsAgent.RunAgent();
+
 //SubscriptionsSeeder.InitDb();
-//SubscriptinTestQueries.Run();
-SubscriptinTestQueries.RunWithDapper();
+//await SubscriptinTestQueries.RunWithDapper();
 //SubscriptinTestQueries.DescribeDatabase();
 
 //await RunIntentDetection();
