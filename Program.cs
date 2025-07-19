@@ -10,7 +10,8 @@ using Subscriptions;
 
 //SubscriptionsSeeder.InitDb();
 //SubscriptinTestQueries.Run();
-SubscriptinTestQueries.DescribeDatabase();
+SubscriptinTestQueries.RunWithDapper();
+//SubscriptinTestQueries.DescribeDatabase();
 
 //await RunIntentDetection();
 //await AgentDelegationSample.RunAsync();

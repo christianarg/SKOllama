@@ -1,11 +1,76 @@
-namespace Subscriptions;
+#pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+using System.ComponentModel;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
+using Dapper;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Agents;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.Google;
+using Newtonsoft.Json;
 
+namespace Subscriptions;
 
 public class SubscriptionsAgent
 {
-    public static async Task Run()
+    public static async Task Run(ChatHistory chatHistory)
     {
+        var kernel = KernelFactory.DefaultKernel();
 
+        ChatCompletionAgent agent = new()
+        {
+            Name = "SubscriptionsAgent",
+            Instructions = """
+                
+                """,
+            Kernel = kernel,
+            Arguments = new(new GeminiPromptExecutionSettings()
+            {
+                ToolCallBehavior = GeminiToolCallBehavior.AutoInvokeKernelFunctions
+                //FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+            })
+        };
+        StringBuilder result = new();
+        ChatHistoryAgentThread agentThread = new(chatHistory);
+        await foreach (var message in agent.InvokeAsync(agentThread))
+        {
+            result.AppendLine(message.Message.ToString());
+        }
+        Console.WriteLine("Assistant> ");
+        Console.WriteLine(result.ToString());
+    }
+}
+
+public class SubscriptionQueryExecutor
+{
+    [KernelFunction("execute_select_query"), Description("Execute a SELECT query against the subscriptions database. The tables include Subscriptions, CatalogProducts, and Skus.")]
+    public async Task<object> ExecuteQuery([Description("The SQL SELECT query. Must be valid SQL for SQLite")] string sqlQuery)
+    {
+        try
+        {
+            using var connection = new Microsoft.Data.Sqlite.SqliteConnection("Data Source=subscriptions.db");
+            await connection.OpenAsync();
+
+            // Dapper returns IEnumerable<dynamic>, convert to List<Dictionary<string, object>>
+            var result = await connection.QueryAsync(sqlQuery);
+
+            // generated code, have to check if it's needed
+            // var list = new List<Dictionary<string, object>>();
+            // foreach (var row in result)
+            // {
+            //     var dict = new Dictionary<string, object>();
+            //     foreach (var prop in ((IDictionary<string, object>)row))
+            //     {
+            //         dict[prop.Key] = prop.Value;
+            //     }
+            //     list.Add(dict);
+            // }
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return ex.Message;  // Return the error message if the query fails to allow the agent to handle it.
+        }
     }
 }
 

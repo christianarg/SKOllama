@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Dapper;
+using Newtonsoft.Json;
 
 namespace Subscriptions;
 
@@ -25,6 +27,15 @@ public class SubscriptinTestQueries
         {
             Console.WriteLine($"SKU ID: {sku.Id}, Name: {sku.Name}, Available Units: {sku.AvailableUnits}, Assigned Units: {sku.AssignedUnits}");
         }
+    }
+
+    public static async Task RunWithDapper()
+    {
+        using var connection = new Microsoft.Data.Sqlite.SqliteConnection("Data Source=subscriptions.db");
+        connection.Open();
+        var sql = "SELECT * FROM Subscriptions";
+        var subscriptions = await connection.QueryAsync(sql);
+        Console.WriteLine(JsonConvert.SerializeObject(subscriptions, Formatting.Indented));
     }
 
     public static void DescribeDatabase()
