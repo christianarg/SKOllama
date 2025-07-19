@@ -9,7 +9,8 @@ using Microsoft.SemanticKernel.Connectors.Google;
 using Subscriptions;
 
 //SubscriptionsSeeder.InitDb();
-SubscriptinTestQueries.Run();
+//SubscriptinTestQueries.Run();
+SubscriptinTestQueries.DescribeDatabase();
 
 //await RunIntentDetection();
 //await AgentDelegationSample.RunAsync();

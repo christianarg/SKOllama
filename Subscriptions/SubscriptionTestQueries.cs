@@ -26,4 +26,7 @@ public class SubscriptinTestQueries
             Console.WriteLine($"SKU ID: {sku.Id}, Name: {sku.Name}, Available Units: {sku.AvailableUnits}, Assigned Units: {sku.AssignedUnits}");
         }
     }
+
+    public static void DescribeDatabase()
+        => Console.WriteLine(SubscriptionAgentHelper.DescribeDatabase());
 }
