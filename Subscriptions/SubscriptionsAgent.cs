@@ -38,9 +38,15 @@ public class SubscriptionsAgent
         {
             Name = "SubscriptionsAgent",
             Instructions = $"""
-                You're an expect SQL agent. You can execute SQL queries against the subscriptions database.
-                Use the `execute_select_query` function to generate and execute SQL queries. Return the results to the user.
-                The database contains the following tables: Subscriptions, CatalogProducts, Skus.
+                Answer the user's questions about licenses and subscriptions.
+                Use the `GenerateAndExecuteQuery` function to generate and execute SQL queries.
+                The subscriptions database contains the following tables: 
+                - Subscriptions. The subscription to licenses.
+                - Skus. The stock keeping units for the license. A Sku can have multiple subscriptions.
+                - CatalogProducts. The complete product catalog the user can subscribe to.
+                DO NOT return the SQL query to the user. 
+                Understand the user's intent, generate SQL queries, and return the results.
+                You can try multiple times to get the correct result.
                 This is the Entity Framework model of the database:
                 {SubscriptionAgentHelper.DescribeDatabase()}
                 """,
@@ -63,9 +69,10 @@ public class SubscriptionsAgent
 
 public class SubscriptionQueryExecutor
 {
-    [KernelFunction("execute_select_query"), Description("Execute a SELECT query against the subscriptions database. The tables include Subscriptions, CatalogProducts, and Skus.")]
-    public async Task<object> ExecuteQuery([Description("The SQL SELECT query. Must be valid SQL for SQLite")] string sqlQuery)
+    [KernelFunction, Description("Generates and Executes a SELECT query against the subscriptions database and returns the results. The tables include Subscriptions, CatalogProducts, and Skus.")]
+    public async Task<object> GenerateAndExecuteQuery([Description("The SQL SELECT query. Must be valid SQL for SQLite")] string sqlQuery, [Description("The description of the generated query. Use this to reason about the generated query")]string queryDescription)
     {
+        Console.WriteLine($"Query Description: {queryDescription}");
         Console.WriteLine($"Executing query: {sqlQuery}");
         try
         {

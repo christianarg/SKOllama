@@ -399,3 +399,5 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 subscriptions.db
+subscriptions.db-shm
+subscriptions.db-wal
