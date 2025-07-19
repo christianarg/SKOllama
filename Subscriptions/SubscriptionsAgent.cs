@@ -126,7 +126,6 @@ public class SubscriptionQueryExecutor
             using var connection = new Microsoft.Data.Sqlite.SqliteConnection("Data Source=subscriptions.db");
             await connection.OpenAsync();
 
-            // Dapper returns IEnumerable<dynamic>, convert to List<Dictionary<string, object>>
             var result = await connection.QueryAsync(sqlQuery);
             // Serialize with enum as string using JsonNet setting
             var settings = new JsonSerializerSettings
