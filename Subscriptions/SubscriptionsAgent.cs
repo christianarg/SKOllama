@@ -89,18 +89,6 @@ public class SubscriptionQueryExecutor
 
             // Dapper returns IEnumerable<dynamic>, convert to List<Dictionary<string, object>>
             var result = await connection.QueryAsync(sqlQuery);
-
-            // generated code, have to check if it's needed
-            // var list = new List<Dictionary<string, object>>();
-            // foreach (var row in result)
-            // {
-            //     var dict = new Dictionary<string, object>();
-            //     foreach (var prop in ((IDictionary<string, object>)row))
-            //     {
-            //         dict[prop.Key] = prop.Value;
-            //     }
-            //     list.Add(dict);
-            // }
             return result;
         }
         catch (Exception ex)
