@@ -11,7 +11,7 @@ public class SubscriptinTestQueries
         var subscriptions = context.Subscriptions.ToList();
         foreach (var subscription in subscriptions)
         {
-            Console.WriteLine($"Subscription ID: {subscription.Id}, Product: {subscription.Sku?.CatalogProduct?.Name}, Billing Cycle: {subscription.BillingCycle}");
+            Console.WriteLine($"Subscription ID: {subscription.Id}, Product: {subscription.Name}, Billing Cycle: {subscription.BillingCycle}, Unit Price: {subscription.UnitPrice}, Quantity: {subscription.Quantity}, Quantity: {subscription.Quantity}, Commitment: {subscription.Commitment}");
         }
         // Example: Get all products
         var products = context.CatalogProducts.ToList();
