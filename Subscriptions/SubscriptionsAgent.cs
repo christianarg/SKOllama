@@ -15,7 +15,8 @@ public class SubscriptionsAgent
 {
     /// <summary>
     /// Some prompts:
-    /// - details of Office 365 E3 subscriptions
+    /// - details of Office 365 E3 subscriptions => should return the details of the subscriptions
+    /// - what's the price of Office 365 E1 => should ask for clarification
     /// </summary>
     /// <returns></returns>
     public static async Task RunAgent()
@@ -52,6 +53,7 @@ public class SubscriptionsAgent
                 DO NOT return the SQL query to the user. 
                 Understand the user's intent, generate SQL queries, and return the results.
                 You can try multiple times to get the correct result.
+                Since the terminology can be ambiguous, you can ask the user for clarification if needed, either before or after executing the query. For example if the user asks "what is the price of Office 365 E3", it may refer to a subscription the user owns, or a product the user can subscribe to.
                 This is the Entity Framework model of the database:
                 {SubscriptionAgentHelper.DescribeDatabase()}
                 """,
