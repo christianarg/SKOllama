@@ -6,26 +6,40 @@ namespace Subscriptions;
 
 public class SubscriptinTestQueries
 {
+    /// <summary>
+    /// Shows the contents of the Subscriptions database.
+    /// </summary>
     public static void Run()
     {
         using var context = new SubscriptionsDbContext();
-        // Example: Get all subscriptions
+        // Subscriptions table
         var subscriptions = context.Subscriptions.ToList();
+        Console.WriteLine("### Subscriptions");
+        Console.WriteLine("| Product | Billing Cycle | Unit Price | Quantity | Commitment | ID |");
+        Console.WriteLine("|---------|--------------|------------|----------|------------|----|");
         foreach (var subscription in subscriptions)
         {
-            Console.WriteLine($"Subscription ID: {subscription.Id}, Product: {subscription.Name}, Billing Cycle: {subscription.BillingCycle}, Unit Price: {subscription.UnitPrice}, Quantity: {subscription.Quantity}, Quantity: {subscription.Quantity}, Commitment: {subscription.Commitment}");
+            Console.WriteLine($"| {subscription.Name} | {subscription.BillingCycle} | {subscription.UnitPrice} | {subscription.Quantity} | {subscription.Commitment} | {subscription.Id} |");
         }
-        // Example: Get all products
+
+        // Products table
         var products = context.CatalogProducts.ToList();
+        Console.WriteLine("\n### CatalogProducts");
+        Console.WriteLine("| Name | Monthly Price | Annual Price | ID |");
+        Console.WriteLine("|------|--------------|--------------|----|");
         foreach (var product in products)
         {
-            Console.WriteLine($"Product ID: {product.Id}, Name: {product.Name}, Monthly Price: {product.MontlyPrice}, Annual Price: {product.AnnualPrice}");
+            Console.WriteLine($"| {product.Name} | {product.MontlyPrice} | {product.AnnualPrice} | {product.Id} |");
         }
-        // Example: Get all SKUs
+
+        // SKUs table
         var skus = context.Skus.ToList();
+        Console.WriteLine("\n### Skus");
+        Console.WriteLine("| Name | Available Units | Assigned Units | ID |");
+        Console.WriteLine("|------|----------------|---------------|----|");
         foreach (var sku in skus)
         {
-            Console.WriteLine($"SKU ID: {sku.Id}, Name: {sku.Name}, Available Units: {sku.AvailableUnits}, Assigned Units: {sku.AssignedUnits}");
+            Console.WriteLine($"| {sku.Name} | {sku.AvailableUnits} | {sku.AssignedUnits} | {sku.Id} |");
         }
     }
 
