@@ -7,6 +7,18 @@ namespace Subscriptions
 {
     public static class SubscriptionsSeeder
     {
+        /// <summary>
+        /// Initializes the SQLite database at 'database.db' and seeds it with initial data.
+        /// </summary>
+        public static void InitDb()
+        {
+            var options = new DbContextOptionsBuilder<SubscriptionsDbContext>()
+                .UseSqlite("Data Source=database.db")
+                .Options;
+            using var context = new SubscriptionsDbContext(options);
+            Seed(context);
+        }
+
         public static void Seed(SubscriptionsDbContext context)
         {
             context.Database.EnsureCreated();

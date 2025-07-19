@@ -61,13 +61,19 @@ namespace Subscriptions
 
     public class SubscriptionsDbContext : DbContext
     {
+        public SubscriptionsDbContext() { }
+        public SubscriptionsDbContext(DbContextOptions<SubscriptionsDbContext> options) : base(options) { }
+
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Sku> Skus { get; set; }
         public DbSet<CatalogProduct> CatalogProducts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=subscriptions.db");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=subscriptions.db");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
