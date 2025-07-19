@@ -121,7 +121,7 @@ public class SubscriptionAgentHelper
     {
         using var context = new SubscriptionsDbContext();
         var model = context.Model;
-        var sb = new System.Text.StringBuilder();
+        var sb = new StringBuilder();
         foreach (var entityType in model.GetEntityTypes())
         {
             sb.AppendLine($"Entity: {entityType.Name}");
