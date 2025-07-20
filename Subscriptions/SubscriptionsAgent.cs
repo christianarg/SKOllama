@@ -19,6 +19,7 @@ public class SubscriptionsAgent
     /// - what's the price of Office 365 E1 => should ask for clarification
     /// - what are my annual subscriptions => should return the annual subscriptions. Ideally should clarify if the user means billing cycle or commitment, I could add some prompt to this. For now it query either one. The description of the returned query should help the user understand what the agent has done.
     /// - what are my unassigned licenses
+    /// - cost of my subscriptions + total price I pay monthly for all my subscriptions + this doesn't seem to include annual subscriptions => I should improve prompt because it initially returned only monthly subscriptions.
     /// </summary>
     /// <returns></returns>
     public static async Task RunAgent()
@@ -66,7 +67,8 @@ public class SubscriptionsAgent
                 DO NOT return the SQL query to the user. 
                 Understand the user's intent, generate SQL queries, and return the results.
                 Return also the query description to help the user understand what you have done.
-                You can try multiple times to get the correct result.
+                You can generate and execute multiple multiple times to get the correct result. For example, if a query fails or the result is not what the user expected, you can try again with a different query.
+                You can generate and execute multiple queries if needed to get the correct result.
                 Since the terminology can be ambiguous, you can ask the user for clarification if needed, either before or after executing the query. For example if the user asks "what is the price of Office 365 E3", it may refer to a subscription the user owns, or a product the user can subscribe to.
                 This is the Entity Framework model of the database:
                 {SubscriptionAgentHelper.DescribeDatabase()}
