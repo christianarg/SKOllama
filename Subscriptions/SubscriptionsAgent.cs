@@ -67,17 +67,22 @@ public class SubscriptionsAgent
                 DO NOT return the SQL query to the user. 
                 Understand the user's intent, generate SQL queries, and return the results.
                 Return also the query description to help the user understand what you have done.
+                
                 You can generate and execute multiple multiple times to get the correct result. For example, if a query fails or the result is not what the user expected, you can try again with a different query.
                 You can generate and execute multiple queries if needed to get the correct result.
-                Since the terminology can be ambiguous, you can ask the user for clarification if needed, either before or after executing the query. For example if the user asks "what is the price of Office 365 E3", it may refer to a subscription the user owns, or a product the user can subscribe to.
+                
+                Since the terminology can be ambiguous, you should ask the user for clarification if needed, either before or after executing the query. For example if the user asks "what is the price of Office 365 E3", it may refer to a subscription the user owns, or a product the user can subscribe to. In this case you should ask the user if they mean a subscription they own or license from the product catalog.
+                
                 This is the Entity Framework model of the database:
                 {SubscriptionAgentHelper.DescribeDatabase()}
+                
                 For enum properties, the database stores the values as integers. For example, the BillingCycle property can have the values 0 (Monthly) or 1 (Annual). The Commitment property can have the values 0 (Monthly) or 1 (Annual).
                 """,
             Kernel = kernel,
             Arguments = new(new GeminiPromptExecutionSettings()
             {
                 ToolCallBehavior = GeminiToolCallBehavior.AutoInvokeKernelFunctions,
+                Temperature = 0.5,
                 ThinkingConfig = new GeminiThinkingConfig
                 {
                     ThinkingBudget = -1, // -1 means automatically determined by the model, 0 disabled, rest are less to more thinking time
