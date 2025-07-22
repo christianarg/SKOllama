@@ -77,8 +77,11 @@ public class SubscriptionsAgent
             Kernel = kernel,
             Arguments = new(new GeminiPromptExecutionSettings()
             {
-                ToolCallBehavior = GeminiToolCallBehavior.AutoInvokeKernelFunctions
-                //FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+                ToolCallBehavior = GeminiToolCallBehavior.AutoInvokeKernelFunctions,
+                ThinkingConfig = new GeminiThinkingConfig
+                {
+                    ThinkingBudget = -1, // -1 means automatically determined by the model, 0 disabled, rest are less to more thinking time
+                },
             })
         };
         // note: instructions do not include restrictions. In a real app you would do this if this was a user facing agent. If this was a "sub-agent" you would proably not include restrictions as the parent agent would have already done this.
