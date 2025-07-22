@@ -64,6 +64,7 @@ public class SubscriptionsAgent
                 - Subscriptions. The subscription to licenses.
                 - Skus. The stock keeping units for the license. A Sku can have multiple subscriptions. Note: Sku is an internal technical term. The user will most likely never use it. Normally the user will refer it as a license.
                 - CatalogProducts. The complete product catalog the user can subscribe to.
+                
                 DO NOT return the SQL query to the user. 
                 Understand the user's intent, generate SQL queries, and return the results.
                 Return also the query description to help the user understand what you have done.
@@ -85,7 +86,7 @@ public class SubscriptionsAgent
                 Temperature = 0.5,
                 ThinkingConfig = new GeminiThinkingConfig
                 {
-                    ThinkingBudget = -1, // -1 means automatically determined by the model, 0 disabled, rest are less to more thinking time
+                    ThinkingBudget = 256, // -1 means automatically determined by the model, 0 disabled, rest are the ammount of tokens the model can use to think before generating a response.
                 },
             })
         };
