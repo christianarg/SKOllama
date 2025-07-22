@@ -17,6 +17,7 @@ public static class KernelFactory
     public static Kernel GeminiKernel()
     {
         return Kernel.CreateBuilder()
+            //.AddGoogleAIGeminiChatCompletion(modelId: "gemini-2.0-flash", Environment.GetEnvironmentVariable("googleAiStudioApiKey")!)
             .AddGoogleAIGeminiChatCompletion(modelId: "gemini-2.5-flash", Environment.GetEnvironmentVariable("googleAiStudioApiKey")!)
             .Build();
     }
