@@ -10,7 +10,8 @@ public class Subscription
     public int Quantity { get; set; }
     public BillingCycle BillingCycle { get; set; }
     public Commitment Commitment { get; set; }
-
+    public DateTime CommitmentEndDate { get; set; }
+    public bool AutoRenewEnabled { get; set; }
     // Foreign key and navigation
     public string CatalogProductId { get; set; } = string.Empty;
     public CatalogProduct? CatalogProduct { get; set; }

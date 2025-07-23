@@ -401,3 +401,5 @@ FodyWeavers.xsd
 subscriptions.db
 subscriptions.db-shm
 subscriptions.db-wal
+
+dataBak/

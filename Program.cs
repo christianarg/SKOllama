@@ -8,13 +8,12 @@ using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Google;
 using Subscriptions;
 
+//SubscriptionsSeeder.InitDb();
 //SubscriptinTestQueries.DescribeDatabase();
 // await SubscriptinTestQueries.RunWithDapper();
 SubscriptinTestQueries.Run();
 await SubscriptionsAgent.RunAgent();
 
-//SubscriptionsSeeder.InitDb();
-//await SubscriptinTestQueries.RunWithDapper();
 
 //await RunIntentDetection();
 //await AgentDelegationSample.RunAsync();

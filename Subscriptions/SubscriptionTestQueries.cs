@@ -15,11 +15,11 @@ public class SubscriptinTestQueries
         // Subscriptions table
         var subscriptions = context.Subscriptions.ToList();
         Console.WriteLine("### Subscriptions");
-        Console.WriteLine("| Product | Billing Cycle | Unit Price | Quantity | Commitment | ID |");
-        Console.WriteLine("|---------|--------------|------------|----------|------------|----|");
+        Console.WriteLine("| Product | Billing Cycle | Unit Price | Quantity | Commitment | CommitmentEndDate | AutoRenewEnabled | ID |");
+        Console.WriteLine("|---------|--------------|------------|----------|------------|-------------------|------------------|----|");
         foreach (var subscription in subscriptions)
         {
-            Console.WriteLine($"| {subscription.Name} | {subscription.BillingCycle} | {subscription.UnitPrice} | {subscription.Quantity} | {subscription.Commitment} | {subscription.Id} |");
+            Console.WriteLine($"| {subscription.Name} | {subscription.BillingCycle} | {subscription.UnitPrice} | {subscription.Quantity} | {subscription.Commitment} | {subscription.CommitmentEndDate} | {subscription.AutoRenewEnabled} | {subscription.Id} |");
         }
 
         // Products table

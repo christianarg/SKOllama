@@ -71,6 +71,8 @@ namespace Subscriptions
                     Quantity = 30,
                     BillingCycle = BillingCycle.Annual,
                     Commitment = Commitment.Annual,
+                    CommitmentEndDate = new DateTime(2026, 03, 15),
+                    AutoRenewEnabled = true,
                     CatalogProductId = office365E3CatalogProduct.Id,
                     SkuId = GetSkuId("Office 365 E3")
                 },
@@ -81,6 +83,8 @@ namespace Subscriptions
                     Quantity = 10,
                     BillingCycle = BillingCycle.Monthly,
                     Commitment = Commitment.Monthly,
+                    CommitmentEndDate = DateTime.UtcNow.AddDays(25),
+                    AutoRenewEnabled = true,
                     CatalogProductId = office365E3CatalogProduct.Id,
                     SkuId = GetSkuId("Office 365 E3")
                 },
@@ -92,6 +96,8 @@ namespace Subscriptions
                     Quantity = 20,
                     BillingCycle = BillingCycle.Annual,
                     Commitment = Commitment.Annual,
+                    CommitmentEndDate = new DateTime(2026, 04, 20),
+                    AutoRenewEnabled = true,
                     CatalogProductId = m365E3CatalogProduct.Id,
                     SkuId = GetSkuId("Microsoft 365 E3")
                 },
@@ -103,6 +109,8 @@ namespace Subscriptions
                     Quantity = 10,
                     BillingCycle = BillingCycle.Annual,
                     Commitment = Commitment.Annual,
+                    CommitmentEndDate = new DateTime(2026, 06, 14),
+                    AutoRenewEnabled = true,
                     CatalogProductId = m365E5CatalogProduct.Id,
                     SkuId = GetSkuId("Microsoft 365 E5")
                 },
@@ -114,6 +122,8 @@ namespace Subscriptions
                     Quantity = 15,
                     BillingCycle = BillingCycle.Annual,
                     Commitment = Commitment.Annual,
+                    CommitmentEndDate = new DateTime(2026, 07, 21),
+                    AutoRenewEnabled = false,
                     CatalogProductId = m365BussinessStandardCatalogProduct.Id,
                     SkuId = GetSkuId("Microsoft 365 Business Standard")
                 },

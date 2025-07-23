@@ -20,6 +20,8 @@ public class SubscriptionsAgent
     /// - what are my annual subscriptions => should return the annual subscriptions. Ideally should clarify if the user means billing cycle or commitment, I could add some prompt to this. For now it query either one. The description of the returned query should help the user understand what the agent has done.
     /// - what are my unassigned licenses
     /// - cost of my subscriptions + total price I pay monthly for all my subscriptions + this doesn't seem to include annual subscriptions => I should improve prompt because it initially returned only monthly subscriptions.
+    /// - what subscriptions will renew in the next 10 months
+    /// - subscriptions that will renew on 15/03/2026
     /// </summary>
     /// <returns></returns>
     public static async Task RunAgent()
@@ -86,7 +88,7 @@ public class SubscriptionsAgent
                 Temperature = 0.5,
                 ThinkingConfig = new GeminiThinkingConfig
                 {
-                    ThinkingBudget = 256, // -1 means automatically determined by the model, 0 disabled, rest are the ammount of tokens the model can use to think before generating a response.
+                    ThinkingBudget = -1, // -1 means automatically determined by the model, 0 disabled, rest are the ammount of tokens the model can use to think before generating a response.
                 },
             })
         };
