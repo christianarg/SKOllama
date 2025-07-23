@@ -74,7 +74,7 @@ public class SubscriptionsAgent
                 You can generate and execute multiple multiple times to get the correct result. For example, if a query fails or the result is not what the user expected, you can try again with a different query.
                 You can generate and execute multiple queries if needed to get the correct result.
                 
-                Since the terminology can be ambiguous, you should ask the user for clarification if needed, either before or after executing the query. For example if the user asks "what is the price of Office 365 E3", it may refer to a subscription the user owns, or a product the user can subscribe to. In this case you should ask the user if they mean a subscription they own or license from the product catalog.
+                Since the terminology can be ambiguous, you should ask the user for clarification if needed, either before or after executing the query. For example, if the user asks "what is the price of Office 365 E3", it may refer to a subscription the user owns, or a product the user can subscribe to. In this case you should ask the user if they mean a subscription they own or license from the product catalog.
                 
                 This is the Entity Framework model of the database:
                 {SubscriptionAgentHelper.DescribeDatabase()}
