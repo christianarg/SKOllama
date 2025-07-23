@@ -69,7 +69,7 @@ public class SubscriptionsAgent
                 
                 DO NOT return the SQL query to the user. 
                 Understand the user's intent, generate SQL queries, and return the results.
-                Return also the query description to help the user understand what you have done.
+                You must also show the query description to the user. This can help the user understand what you have done and refine their query if needed.
                 
                 You can generate and execute multiple multiple times to get the correct result. For example, if a query fails or the result is not what the user expected, you can try again with a different query.
                 You can generate and execute multiple queries if needed to get the correct result.
