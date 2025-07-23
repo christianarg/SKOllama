@@ -157,6 +157,7 @@ public class SubscriptionQueryExecutor
             return $"""
                 # Query Result
                 {serializedResult}
+                
                 # Query Description
                 {queryDescription}
                 Remember to replace the term "Sku" with "License" in the results, as the user will not understand the technical term "Sku".
